@@ -1,0 +1,23 @@
+name: Kubeflow - Serve Model using KFServing
+description: Serve Models using Kubeflow KFServing
+inputs:
+  - {name: Model Name,  type: String, default: '',              description: 'Name to give to the deployed model'}
+  - {name: Default Model URI,     type: String, description: 'Path of the S3 or GCS compatible directory containing default model.'} 
+  - {name: Canary Model URI,     type: String, description: 'Optional Path of the S3 or GCS compatible directory containing canary model.'} 
+  - {name: Canary Model Traffic Percentage,     type: String, description: 'Optional Traffic to be sent to default model'} 
+  - {name: PVC name,      type: String, default: '' ,             description: 'Optional PersistentVolumeClaim to use.'}
+  - {name: Namespace,     type: String, default: 'kubeflow',      description: 'Kubernetes namespace where the KFServing service is deployed.'}
+outputs:
+  - {name: Endppoint URI, type: Serving URI,                      description: 'URI of the deployed prediction service..'}
+implementation:
+  container:
+    image: gcr.io/ml-pipeline/ml-pipeline-kubeflow-kfservingdeployer
+    command: [/bin/deploy.sh]
+    args: [
+      --model_name,            {inputValue: Model Name},
+      --default-model-uri,     {inputValue: Default Model URI},
+      --canary-model-uri,      {inputValue: Canary Model URI},
+      --canary-model-traffic,  {inputValue: Canary Model Traffic percentage},
+      --pvc-name,              {inputValue: PVC name},
+      --namespace,             {inputValue: Namespace},
+    ]
