@@ -145,7 +145,7 @@ if __name__ == "__main__":
     output_path = args.output_path
     default_custom_model_spec = args.default_custom_model_spec
     canary_custom_model_spec = args.canary_custom_model_spec
-    kfserving-endpoint = url.sub('', args.kfserving-endpoint)
+    kfserving_endpoint = url.sub('', args.kfserving_endpoint)
     autoscaling_target = int(args.autoscaling_target)
 
     if kfserving-endpoint:
@@ -161,7 +161,7 @@ if __name__ == "__main__":
             "canary_custom_model_spec": canary_custom_model_spec,
             "autoscaling_target": autoscaling_target
             }
-        response = requests.post("http://" + kfserving-endpoint + "/deploy-model", json=formData)
+        response = requests.post("http://" + kfserving_endpoint + "/deploy-model", json=formData)
         model_status = response.json()
     else:
         model_status = deploy_model(
